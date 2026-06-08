@@ -1,0 +1,27 @@
+# 运行时缓存
+/cache/*
+!/cache/.gitkeep
+
+# 采集中间产物 + 密钥
+/scripts/_tmp/
+/scripts/*.json
+/scripts/*.csv
+/scripts/secret.php
+
+# 本地密钥（不进仓库）
+/includes/db.local.php
+
+# 本地开发样例数据（仅用于本地视觉验证，不进仓库）
+/scripts/seed_dev.sql
+
+# 系统
+.DS_Store
+Thumbs.db
+*.log
+
+# 编辑器
+.vscode/
+.idea/
+
+# Playwright 截图日志
+/.playwright-mcp/

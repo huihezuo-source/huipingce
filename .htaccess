@@ -1,0 +1,31 @@
+# 汇评测 huipingce.com — Apache 伪静态 / 重定向
+RewriteEngine On
+
+# 强制 https + www（线上启用；本地无影响）
+# RewriteCond %{HTTPS} off [OR]
+# RewriteCond %{HTTP_HOST} !^www\. [NC]
+# RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+# RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
+
+# sitemap.xml → sitemap.php
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+# 评测短链：/review/<id> → review-detail.php?id=<id>
+RewriteRule ^review/([A-Za-z0-9_\-]+)/?$ review-detail.php?id=$1 [L,QSA]
+# 经纪商短链：/broker/<id>
+RewriteRule ^broker/([A-Za-z0-9_\-]+)/?$ broker-detail.php?id=$1 [L,QSA]
+# 监管短链：/regulator/<id>
+RewriteRule ^regulator/([A-Za-z0-9_\-]+)/?$ regulator-detail.php?id=$1 [L,QSA]
+
+# 安全：禁止访问敏感文件
+<FilesMatch "(db\.local\.php|\.sql|\.md)$">
+  Require all denied
+</FilesMatch>
+
+# 缓存静态资源
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+</IfModule>
