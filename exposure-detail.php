@@ -49,7 +49,7 @@ header_html('exposure', [
     <?php endif; ?>
 
     <?php if($c['admin_reply']): ?>
-    <div class="rate-box" style="margin-top:22px;background:#eaf1fb;border-color:#cdddf5;flex-direction:column;align-items:flex-start">
+    <div class="rate-box reply-box" style="margin-top:22px;flex-direction:column;align-items:flex-start">
       <b style="color:var(--blue)">平台/交易商回应</b>
       <div style="margin-top:6px"><?=nl2br(h($c['admin_reply']))?></div>
       <?php if($c['status']==='resolved' && $c['resolved_amount']>0): ?>
