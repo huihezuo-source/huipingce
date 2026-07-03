@@ -1,0 +1,13 @@
+# FCA 采集品牌名清单（每行一个；# 开头为注释）
+# 用法：php scripts/collect_fca.php names scripts/fca_brokers.txt
+# 持续补充你想收录的外汇经纪商品牌名，采集器会用 FCA Register 搜索匹配实体
+IC Markets
+Pepperstone
+CMC Markets
+IG
+Saxo
+FXCM
+Tickmill
+ThinkMarkets
+Admiral Markets
+Plus500

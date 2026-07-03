@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /scripts/
+Disallow: /api/
+Disallow: /login.php
+Disallow: /register.php
+Disallow: /account.php
+Disallow: /logout.php
+
+Sitemap: https://www.huipingce.com/sitemap.xml
