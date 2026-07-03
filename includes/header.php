@@ -110,7 +110,7 @@ function header_html($active = '', $opts = []) {
 <meta name="description" content="{$desc}">
 <meta name="keywords" content="{$kw}">
 <link rel="canonical" href="{$canonical}">
-<meta name="theme-color" content="#070b12">
+<meta name="theme-color" content="#f4f6fa">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 {$og_tags}
 {$jsonld}

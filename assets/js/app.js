@@ -2,16 +2,43 @@
 (function(){
   'use strict';
 
-  // ── 进场动画 ──
+  // ── 卡片入场动画（自动挂载 + 交错延迟）──
   function reveal(){
-    var els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window) || !els.length){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 自动给主要卡片挂 .reveal（页面里手写的 .reveal 也一并处理）
+    document.querySelectorAll('.card').forEach(function(e){ e.classList.add('reveal'); });
+    var els = [].slice.call(document.querySelectorAll('.reveal'));
+    if (reduce || !('IntersectionObserver' in window) || !els.length){
       els.forEach(function(e){ e.classList.add('in'); }); return;
     }
+    // 同一批进入视口的元素按顺序交错 60ms
+    var batch = 0, lastT = 0;
     var io = new IntersectionObserver(function(en){
-      en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
-    }, {threshold:.08});
+      var now = performance.now();
+      if (now - lastT > 200) batch = 0;      // 新一批
+      lastT = now;
+      en.forEach(function(x){
+        if(!x.isIntersecting) return;
+        x.target.style.setProperty('--d', (batch++ % 6) * 0.06 + 's');
+        x.target.classList.add('in');
+        io.unobserve(x.target);
+      });
+    }, {threshold:.08, rootMargin:'0px 0px -4% 0px'});
     els.forEach(function(e){ io.observe(e); });
+  }
+
+  // ── 滚动视差（rAF 节流写入 --sy，CSS 端消费）──
+  function parallax(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var root = document.documentElement, ticking = false;
+    function update(){
+      root.style.setProperty('--sy', window.scrollY || 0);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking){ ticking = true; requestAnimationFrame(update); }
+    }, {passive:true});
+    update();
   }
 
   // ── 交互星标（打分）──
@@ -88,5 +115,5 @@
   }
 
   function ready(fn){ if(document.readyState!='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
-  ready(function(){ reveal(); initRateStars(); initRateSubmit(); initUseful(); });
+  ready(function(){ reveal(); parallax(); initRateStars(); initRateSubmit(); initUseful(); });
 })();
